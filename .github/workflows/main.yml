@@ -13,6 +13,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2  # 检出代码
 
+    - name: Set timezone to Asia/Shanghai
+      run: sudo timedatectl set-timezone Asia/Shanghai  # 设置时区为北京时间
+      
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
