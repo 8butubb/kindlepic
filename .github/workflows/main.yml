@@ -21,6 +21,8 @@ jobs:
     - name: Install dependencies
       run: |
         pip install requests pillow beautifulsoup4  # 安装依赖库
+        sudo apt-get update
+        sudo apt-get install -y fonts-noto-cjk  # 安装 Noto CJK 字体包，支持中文
 
     - name: Run Python script to generate image
       run: |
