@@ -3,7 +3,8 @@ name: Generate and Upload Image
 on:
   schedule:
     - cron: '*/5 * * * *'  # 每五分钟执行一次
-
+  workflow_dispatch:  # 允许手动触发
+  
 jobs:
   generate-and-upload-image:
     runs-on: ubuntu-latest  # 使用 Ubuntu 环境
@@ -23,7 +24,7 @@ jobs:
 
     - name: Run Python script to generate image
       run: |
-        python generate_image.py  # 执行 Python 脚本生成图片
+        python scripts/generate_image.py  # 执行 Python 脚本生成图片
 
     - name: Commit and push image to repository
       run: |
