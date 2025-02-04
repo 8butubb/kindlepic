@@ -52,10 +52,10 @@ def create_rank_image(titles, output_path="richang.png"):
 
     # 设置字体
     try:
-        # 尝试使用黑体字体（simhei.ttf）
-        title_font = ImageFont.truetype("C:/Windows/Fonts/simhei.ttf", 60)  # 大字体用于标题
-        text_font = ImageFont.truetype("C:/Windows/Fonts/simhei.ttf", 48)  # 正文字体
-        small_font = ImageFont.truetype("C:/Windows/Fonts/simhei.ttf", 32)  # 小字字体用于日期
+        # 尝试使用 Noto Sans CJK 字体
+        title_font = ImageFont.truetype("/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc", 60)  # 大字体用于标题
+        text_font = ImageFont.truetype("/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc", 48)  # 正文字体
+        small_font = ImageFont.truetype("/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc", 32)  # 小字字体用于日期
     except IOError:
         print("黑体字体加载失败，使用默认字体")
         title_font = ImageFont.load_default()  # 使用默认字体
