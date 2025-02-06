@@ -96,16 +96,19 @@ def create_rank_image(titles, output_path="richang.png"):
     button_width = bbox[2] - bbox[0]  # 计算宽度
     button_height = bbox[3] - bbox[1]  # 计算高度
 
+    # 确保矩形紧凑包裹文字，避免上边过多空白
+    padding = 15  # 给文字添加适当的内边距
+
     # 画圆角矩形（背景为黑色，边框颜色为黑色）
-    radius = 15  # 圆角半径（稍微小一点，使矩形更紧凑）
-    rect_x1 = image_width - button_margin - button_width - 10  # 圆角矩形的 X 位置（减少空白）
-    rect_y1 = image_height - button_margin - button_height - 10  # 圆角矩形的 Y 位置（减少空白）
-    rect_x2 = rect_x1 + button_width + 20  # 圆角矩形的右下角 X 位置
-    rect_y2 = rect_y1 + button_height + 20  # 圆角矩形的右下角 Y 位置
+    radius = 15  # 圆角半径
+    rect_x1 = image_width - button_margin - button_width - padding  # 圆角矩形的 X 位置
+    rect_y1 = image_height - button_margin - button_height - padding  # 圆角矩形的 Y 位置
+    rect_x2 = rect_x1 + button_width + 2 * padding  # 圆角矩形的右下角 X 位置
+    rect_y2 = rect_y1 + button_height + 2 * padding  # 圆角矩形的右下角 Y 位置
     draw.rounded_rectangle([rect_x1, rect_y1, rect_x2, rect_y2], radius=radius, fill=button_color, outline=button_color, width=5)
 
     # 添加文本（黑色背景圆角矩形里的白色文字）
-    draw.text((rect_x1 + 10, rect_y1 + 10), button_text, fill=button_text_color, font=button_font)
+    draw.text((rect_x1 + padding, rect_y1 + padding), button_text, fill=button_text_color, font=button_font)
 
     # 检查最后一行是否会被矩形挡住
     if rect_y2 > image_height - button_margin:
