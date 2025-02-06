@@ -107,6 +107,11 @@ def create_rank_image(titles, output_path="richang.png"):
     # 添加文本（黑色背景圆角矩形里的白色文字）
     draw.text((rect_x1 + 10, rect_y1 + 10), button_text, fill=button_text_color, font=button_font)
 
+    # 检查最后一行是否会被矩形挡住
+    if rect_y2 > image_height - button_margin:
+        print("最后一行文本被遮挡，自动隐藏。")
+        y -= line_height  # 自动移除最后一行
+
     # 保存图片
     image.save(output_path)
     print(f"图片已保存为 {output_path}")
