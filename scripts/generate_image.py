@@ -105,7 +105,7 @@ def create_rank_image(titles, output_path="richang.png"):
     draw.rounded_rectangle([rect_x1, rect_y1, rect_x2, rect_y2], radius=radius, fill=button_color, outline=button_color, width=5)
 
     # 调整文字位置，使其向上移动一点
-    vertical_offset = -5  # 文字向上移动5个单位
+    vertical_offset = -15  # 文字向上移动5个单位
     draw.text((rect_x1 + 10, rect_y1 + 10 + vertical_offset), button_text, fill=button_text_color, font=button_font)
 
     # 保存图片
