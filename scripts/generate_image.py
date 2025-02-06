@@ -45,7 +45,8 @@ def create_rank_image(titles, output_path="richang.png"):
 
     background_color = (255, 255, 255)  # 白色背景
     text_color = (0, 0, 0)  # 黑色文字
-    button_color = (220, 220, 220)  # 圆角矩形按钮的颜色
+    button_color = (0, 0, 0)  # 圆角矩形的背景颜色（黑色）
+    button_text_color = (255, 255, 255)  # 圆角矩形里的文字颜色（白色）
 
     # 创建图片对象
     image = Image.new("RGB", (image_width, image_height), background_color)
@@ -95,16 +96,16 @@ def create_rank_image(titles, output_path="richang.png"):
     button_width = bbox[2] - bbox[0]  # 计算宽度
     button_height = bbox[3] - bbox[1]  # 计算高度
 
-    # 画圆角矩形
+    # 画圆角矩形（背景为黑色，边框颜色为黑色）
     radius = 20  # 圆角半径
     rect_x1 = image_width - button_margin - button_width - 20  # 圆角矩形的 X 位置
     rect_y1 = image_height - button_margin - button_height - 20  # 圆角矩形的 Y 位置
     rect_x2 = rect_x1 + button_width + 40  # 圆角矩形的右下角 X 位置
     rect_y2 = rect_y1 + button_height + 40  # 圆角矩形的右下角 Y 位置
-    draw.rounded_rectangle([rect_x1, rect_y1, rect_x2, rect_y2], radius=radius, outline=text_color, width=5)
+    draw.rounded_rectangle([rect_x1, rect_y1, rect_x2, rect_y2], radius=radius, fill=button_color, outline=button_color, width=5)
 
-    # 添加文本
-    draw.text((rect_x1 + 20, rect_y1 + 20), button_text, fill=text_color, font=button_font)
+    # 添加文本（黑色背景圆角矩形里的白色文字）
+    draw.text((rect_x1 + 20, rect_y1 + 20), button_text, fill=button_text_color, font=button_font)
 
     # 保存图片
     image.save(output_path)
