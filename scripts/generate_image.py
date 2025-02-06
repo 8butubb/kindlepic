@@ -45,8 +45,6 @@ def create_rank_image(titles, output_path="richang.png"):
 
     background_color = (255, 255, 255)  # 白色背景
     text_color = (0, 0, 0)  # 黑色文字
-    button_color = (0, 0, 0)  # 圆角矩形的背景颜色（黑色）
-    button_text_color = (255, 255, 255)  # 圆角矩形里的文字颜色（白色）
 
     # 创建图片对象
     image = Image.new("RGB", (image_width, image_height), background_color)
@@ -58,16 +56,21 @@ def create_rank_image(titles, output_path="richang.png"):
         title_font = ImageFont.truetype("/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc", 60)  # 大字体用于标题
         text_font = ImageFont.truetype("/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc", 48)  # 正文字体
         small_font = ImageFont.truetype("/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc", 32)  # 小字字体用于日期
-        button_font = ImageFont.truetype("/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc", 48)  # 按钮字体
+        extra_small_font = ImageFont.truetype("/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc", 24)  # "已锁屏" 字体
     except IOError:
         print("字体加载失败，使用默认字体")
         title_font = ImageFont.load_default()  # 使用默认字体
         text_font = ImageFont.load_default()  # 使用默认字体
         small_font = ImageFont.load_default()  # 使用默认字体
-        button_font = ImageFont.load_default()  # 使用默认字体
+        extra_small_font = ImageFont.load_default()  # 使用默认字体
 
     # 标题位置
     x, y = 50, 50
+
+    # 添加 "已锁屏" 文本
+    lock_screen_text = "已锁屏"
+    draw.text((x, y), lock_screen_text, fill=text_color, font=extra_small_font)
+    y += 40  # 调整 y 坐标以避免与其他内容重叠
 
     # 添加标题到图片（"今日热榜"）
     draw.text((x, y), "今日热榜", fill=text_color, font=title_font)
@@ -86,27 +89,6 @@ def create_rank_image(titles, output_path="richang.png"):
     for title in titles:
         draw.text((x, y), title, fill=text_color, font=text_font)
         y += line_height
-
-    # 在图片右下角添加“已锁屏”字样并围绕圆角矩形
-    button_text = "已锁屏"
-    button_margin = 30  # 距离底部和右侧的间距
-
-    # 使用 textbbox 来计算文本边界框的宽高
-    bbox = draw.textbbox((0, 0), button_text, font=button_font)
-    button_width = bbox[2] - bbox[0]  # 计算宽度
-    button_height = bbox[3] - bbox[1]  # 计算高度
-
-    # 圆角矩形位置保持不变
-    radius = 15  # 圆角半径
-    rect_x1 = image_width - button_margin - button_width - 10  # 圆角矩形的 X 位置（减少空白）
-    rect_y1 = image_height - button_margin - button_height - 10  # 圆角矩形的 Y 位置（减少空白）
-    rect_x2 = rect_x1 + button_width + 20  # 圆角矩形的右下角 X 位置
-    rect_y2 = rect_y1 + button_height + 20  # 圆角矩形的右下角 Y 位置
-    draw.rounded_rectangle([rect_x1, rect_y1, rect_x2, rect_y2], radius=radius, fill=button_color, outline=button_color, width=5)
-
-    # 调整文字位置，使其向上移动一点
-    vertical_offset = -15  # 文字向上移动5个单位
-    draw.text((rect_x1 + 10, rect_y1 + 10 + vertical_offset), button_text, fill=button_text_color, font=button_font)
 
     # 保存图片
     image.save(output_path)
