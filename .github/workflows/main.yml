@@ -4,7 +4,7 @@ on:
   schedule:
     - cron: '*/5 * * * *'  # 每五分钟执行一次
   workflow_dispatch:  # 允许手动触发
-  
+
 jobs:
   generate-and-upload-image:
     runs-on: ubuntu-latest  # 使用 Ubuntu 环境
@@ -15,7 +15,7 @@ jobs:
 
     - name: Set timezone to Asia/Shanghai
       run: sudo timedatectl set-timezone Asia/Shanghai  # 设置时区为北京时间
-      
+
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
@@ -38,5 +38,10 @@ jobs:
         git add pic/richang.png  # 将生成的图片加入 Git
         git commit -m "自动更新图片 $(date)"
         git push  # 推送图片到仓库
+
+    - name: Clean up old commits
+      run: |
+        git reset --hard HEAD~10  # 保留最近 10 个提交
+        git push --force origin master  # 强制推送修改后的历史
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 使用 GitHub Token 来进行认证
