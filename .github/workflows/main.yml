@@ -42,6 +42,6 @@ jobs:
     - name: Clean up old commits
       run: |
         git reset --hard HEAD~10  # 保留最近 10 个提交
-        git push --force origin master  # 强制推送修改后的历史
+        git push --force origin main  # 强制推送修改后的历史
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 使用 GitHub Token 来进行认证
