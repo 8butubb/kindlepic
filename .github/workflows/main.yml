@@ -31,17 +31,21 @@ jobs:
       run: |
         python scripts/generate_image.py  # 执行 Python 脚本生成图片
 
-    - name: Commit and push image to repository
+    - name: Remove file history before 1 day ago
+      run: |
+        # 安装 git-filter-repo 工具
+        sudo apt-get install -y python3-pip
+        pip3 install git-filter-repo  # 安装 git-filter-repo
+
+        # 删除 pic/richang.png 文件在 1 天前的提交记录
+        git filter-repo --path pic/richang.png --before "1 day ago" --invert-paths
+
+    - name: Commit and push updated repository
       run: |
         git config --global user.name "GitHub Actions"
         git config --global user.email "actions@github.com"
-        git add pic/richang.png  # 将生成的图片加入 Git
-        git commit -m "自动更新图片 $(date)"
-        git push  # 推送图片到仓库
-
-    - name: Clean up old commits
-      run: |
-        git reset --hard HEAD~10  # 保留最近 10 个提交
-        git push --force origin main  # 强制推送修改后的历史
+        git add .  # 将所有更改添加到 Git
+        git commit -m "删除 pic/richang.png 文件 1 天前的历史记录"
+        git push --force origin main  # 强制推送更新后的历史
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 使用 GitHub Token 来进行认证
